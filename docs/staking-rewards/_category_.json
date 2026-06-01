@@ -1,0 +1,8 @@
+{
+  "label": "Staking & Rewards",
+  "position": 8,
+  "link": {
+    "type": "generated-index",
+    "description": "Detailed information about TCP staking and reward mechanisms"
+  }
+}

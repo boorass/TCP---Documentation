@@ -1,0 +1,8 @@
+{
+  "label": "Introduction",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Get started with Protocol (TCP) — project overview, vision, network choice, and key facts"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "Protocol Architecture",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Deep dive into TCP's smart contract architecture and technical implementation"
+  }
+}
