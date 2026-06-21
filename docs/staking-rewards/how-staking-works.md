@@ -1,20 +1,24 @@
 ---
-title: How Staking Works
+title: "How Staking Works"
 sidebar_position: 1
-description: Understanding TCP staking mechanics and user participation
+description: "Understanding TCP staking mechanics and user participation"
 ---
 
 # How Staking Works
 
 Protocol (TCP) features a **simple, user-friendly staking mechanism** that enables token holders to earn rewards.
 
+:::info
+The current staking implementation is **TCPStaking V3**, a production-grade system deployed prior to mainnet launch. No user action is required.
+:::
+
 ## Staking Overview
 
 Staking allows you to:
-- **Deposit TCP tokens** — Lock tokens in staking contract
-- **Earn rewards** — Receive rewards over time
-- **Claim rewards** — Withdraw earned rewards anytime
-- **Unstake anytime** — Withdraw staked tokens without lock-up
+- **Deposit TCP tokens**, Lock tokens in staking contract
+- **Earn rewards**, Receive rewards over time
+- **Claim rewards**, Withdraw earned rewards anytime
+- **Unstake anytime**, Withdraw staked tokens without lock-up
 
 ## Staking Process
 
@@ -25,7 +29,7 @@ Before staking, you must approve the staking contract to spend your tokens.
 **How to Approve**
 1. Open your wallet
 2. Find TCP token
-3. Select "Approve"
+3. Select \"Approve\"
 4. Enter staking contract address
 5. Enter amount to approve
 6. Confirm transaction
@@ -91,7 +95,7 @@ You can claim your earned rewards anytime.
 **How to Claim**
 1. Open staking interface
 2. View earned rewards
-3. Click "Claim"
+3. Click \"Claim\"
 4. Confirm transaction
 5. Wait for confirmation
 
@@ -167,10 +171,10 @@ Rewards accrue continuously:
 ### Reward Distribution
 
 Rewards are distributed from:
-- **Reward Pool** — Allocated tokens
-- **Protocol Revenue** — Protocol earnings
-- **Treasury** — If needed
-- **Ecosystem Allocations** — If applicable
+- **Reward Pool**, Allocated tokens
+- **Protocol Revenue**, Protocol earnings
+- **Treasury**, If needed
+- **Ecosystem Allocations**, If applicable
 
 ### Reward Sustainability
 
@@ -257,28 +261,28 @@ Completion:
 
 ### For Users
 
-✅ **Passive income** — Earn rewards on holdings  
-✅ **Flexibility** — Stake and unstake anytime  
-✅ **Transparency** — Rewards calculated on-chain  
-✅ **Simplicity** — Easy to understand and use  
-✅ **No lock-up** — Access tokens anytime  
+✅ **Passive income**, Earn rewards on holdings  
+✅ **Flexibility**, Stake and unstake anytime  
+✅ **Transparency**, Rewards calculated on-chain  
+✅ **Simplicity**, Easy to understand and use  
+✅ **No lock-up**, Access tokens anytime  
 
 ### For Protocol
 
-✅ **Incentivizes holding** — Rewards encourage long-term holding  
-✅ **Builds community** — Rewards build community engagement  
-✅ **Supports security** — Staking supports protocol security  
-✅ **Aligns incentives** — Rewards align holder interests  
+✅ **Incentivizes holding**, Rewards encourage long-term holding  
+✅ **Builds community**, Rewards build community engagement  
+✅ **Supports security**, Staking supports protocol security  
+✅ **Aligns incentives**, Rewards align holder interests  
 
 ## Staking Risks
 
 ### Considerations
 
-⚠️ **Smart contract risk** — Staking contract may have vulnerabilities  
-⚠️ **Market risk** — Token value may decrease  
-⚠️ **Reward risk** — Reward rate may change  
-⚠️ **Liquidity risk** — Tokens locked while staking  
-⚠️ **Operational risk** — Protocol operations may be disrupted  
+⚠️ **Smart contract risk**, Staking contract may have vulnerabilities  
+⚠️ **Market risk**, Token value may decrease  
+⚠️ **Reward risk**, Reward rate may change  
+⚠️ **Liquidity risk**, Tokens locked while staking  
+⚠️ **Operational risk**, Protocol operations may be disrupted  
 
 ### Risk Mitigation
 
@@ -293,28 +297,30 @@ Risks are mitigated through:
 
 ### For Stakers
 
-✅ **Understand the mechanism** — Know how staking works  
-✅ **Verify the contract** — Check contract on PolygonScan  
-✅ **Start small** — Test with small amount first  
-✅ **Monitor rewards** — Track your rewards  
-✅ **Claim regularly** — Claim rewards periodically  
+✅ **Understand the mechanism**, Know how staking works  
+✅ **Verify the contract**, Check contract on PolygonScan  
+✅ **Start small**, Test with small amount first  
+✅ **Monitor rewards**, Track your rewards  
+✅ **Claim regularly**, Claim rewards periodically  
 
 ### For Community
 
-✅ **Monitor staking** — Watch staking metrics  
-✅ **Assess rewards** — Evaluate reward sustainability  
-✅ **Provide feedback** — Share suggestions  
-✅ **Report issues** — Report any problems  
-✅ **Stay informed** — Follow staking updates  
+✅ **Monitor staking**, Watch staking metrics  
+✅ **Assess rewards**, Evaluate reward sustainability  
+✅ **Provide feedback**, Share suggestions  
+✅ **Report issues**, Report any problems  
+✅ **Stay informed**, Follow staking updates  
 
 ## Key Takeaways
 
-1. **Simple mechanism** — Easy to understand and use
-2. **Flexible participation** — Stake and unstake anytime
-3. **Transparent rewards** — Rewards calculated on-chain
-4. **No lock-up** — Access tokens anytime
-5. **Community trust** — Transparent, auditable staking
+1. **Simple mechanism**, Easy to understand and use
+2. **Flexible participation**, Stake and unstake anytime
+3. **Transparent rewards**, Rewards calculated on-chain
+4. **No lock-up**, Access tokens anytime
+5. **Community trust**, Transparent, auditable staking
 
----
+## See also
 
-**Next:** Learn about [Reward Funding](./reward-funding.md) and how rewards are sustained.
+- [TCPStaking V2 to V3 Migration](/docs/staking-rewards/v2-to-v3-migration), Technical migration details
+- [Reward Funding](/docs/staking-rewards/reward-funding), How rewards are sustained
+- [Staking Contract](/docs/protocol-architecture/staking), Technical contract details

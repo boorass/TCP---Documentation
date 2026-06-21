@@ -1,12 +1,16 @@
 ---
-title: Staking Contract
+title: "Staking Contract"
 sidebar_position: 8
-description: Technical details of the Staking contract and reward distribution
+description: "Technical details of the Staking contract and reward distribution"
 ---
 
 # Staking Contract
 
 The **Staking Contract** enables users to stake TCP tokens and earn rewards.
+
+:::note
+The current production staking implementation is **TCPStaking V3**, deployed prior to mainnet launch. For details on the V2 to V3 transition, see [TCPStaking V2 to V3 Migration](/docs/staking-rewards/v2-to-v3-migration).
+:::
 
 ## Contract Purpose
 
@@ -26,10 +30,10 @@ The Staking Contract:
 Stakes TCP tokens.
 
 **Parameters**
-- `amount` — Number of tokens to stake
+- `amount`, Number of tokens to stake
 
 **Returns**
-- `bool` — True if successful
+- `bool`, True if successful
 
 **Events**
 - `Staked(user, amount)`
@@ -50,10 +54,10 @@ stake(1000e18)
 Unstakes TCP tokens.
 
 **Parameters**
-- `amount` — Number of tokens to unstake
+- `amount`, Number of tokens to unstake
 
 **Returns**
-- `bool` — True if successful
+- `bool`, True if successful
 
 **Events**
 - `Unstaked(user, amount)`
@@ -74,7 +78,7 @@ unstake(500e18)
 Claims earned rewards.
 
 **Returns**
-- `uint256` — Reward amount
+- `uint256`, Reward amount
 
 **Events**
 - `RewardsClaimed(user, amount)`
@@ -96,34 +100,34 @@ claimRewards()
 Returns user's staked balance.
 
 **Parameters**
-- `user` — User address
+- `user`, User address
 
 **Returns**
-- `uint256` — Staked amount
+- `uint256`, Staked amount
 
 #### `getRewardBalance(address user)`
 
 Returns user's earned rewards.
 
 **Parameters**
-- `user` — User address
+- `user`, User address
 
 **Returns**
-- `uint256` — Reward amount
+- `uint256`, Reward amount
 
 #### `getRewardRate()`
 
 Returns current reward rate.
 
 **Returns**
-- `uint256` — Reward rate (e.g., 10 for 10% APY)
+- `uint256`, Reward rate (e.g., 10 for 10% APY)
 
 #### `getTotalStaked()`
 
 Returns total tokens staked.
 
 **Returns**
-- `uint256` — Total staked amount
+- `uint256`, Total staked amount
 
 ## Events
 
@@ -225,11 +229,12 @@ staking.stake(amount);
 
 ## Key Takeaways
 
-1. **Simple mechanism** — Easy to understand and use
-2. **Flexible participation** — Stake and unstake anytime
-3. **Transparent rewards** — Rewards calculated on-chain
-4. **Auditable** — Complete history available for review
+1. **Simple mechanism**, Easy to understand and use
+2. **Flexible participation**, Stake and unstake anytime
+3. **Transparent rewards**, Rewards calculated on-chain
+4. **Auditable**, Complete history available for review
 
 ---
 
 **Next:** Learn about the [Burn Engine](./burn-engine.md) that manages supply reduction.
+"}
