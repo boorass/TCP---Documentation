@@ -1,326 +1,417 @@
 ---
 title: "How Staking Works"
-sidebar_position: 1
-description: "Understanding TCP staking mechanics and user participation"
+sidebar_position: 2
+description: "Complete guide to TCP staking mechanics, user workflows, and reward accrual"
+sidebar_custom_props:
+  icon: "book-open"
 ---
 
-# How Staking Works
-
-Protocol (TCP) features a **simple, user-friendly staking mechanism** that enables token holders to earn rewards.
-
-:::info
-The current staking implementation is **TCPStaking V3**, a production-grade system deployed prior to mainnet launch. No user action is required.
-:::
+TCP Protocol's staking system enables token holders to earn rewards by locking their TCP tokens in the TCPStakingV2 contract. This guide explains the complete staking process, from approval to reward claiming.
 
 ## Staking Overview
 
-Staking allows you to:
-- **Deposit TCP tokens**, Lock tokens in staking contract
-- **Earn rewards**, Receive rewards over time
-- **Claim rewards**, Withdraw earned rewards anytime
-- **Unstake anytime**, Withdraw staked tokens without lock-up
+The staking process consists of five main steps:
 
-## Staking Process
+```
+1. Approve → 2. Stake → 3. Accrue Rewards → 4. Claim → 5. Unstake
+```
 
-### Step 1: Approve Staking Contract
+Each step is a separate transaction that interacts with the staking contract and the TCP token contract.
 
-Before staking, you must approve the staking contract to spend your tokens.
+## Step 1: Approve the Staking Contract
 
-**How to Approve**
-1. Open your wallet
-2. Find TCP token
-3. Select \"Approve\"
-4. Enter staking contract address
-5. Enter amount to approve
-6. Confirm transaction
+Before you can stake TCP tokens, you must grant the staking contract permission to spend your tokens.
 
-**On-Chain**
-- Approval recorded
-- Allowance set
-- Event emitted
-- Ready to stake
+### Why Approval is Required
 
-### Step 2: Stake Tokens
+The ERC-20 token standard requires a two-step process:
+1. **Approve**: Grant the contract an allowance
+2. **Transfer**: The contract uses that allowance to transfer tokens
 
-Once approved, you can stake your tokens.
+This design protects users by requiring explicit permission before any token movement.
 
-**How to Stake**
-1. Open staking interface
-2. Enter amount to stake
-3. Review details
-4. Confirm transaction
+### How to Approve
+
+**Via Web Interface**
+1. Connect your wallet
+2. Navigate to the staking interface
+3. Click "Approve"
+4. Confirm the transaction in your wallet
+5. Wait for confirmation on Polygon Mainnet
+
+**Via Smart Contract**
+```solidity
+// Approve the staking contract to spend your TCP tokens
+tcp.approve(stakingContractAddress, amountToApprove);
+```
+
+**On-Chain Result**
+- Allowance recorded in TCP token contract
+- Staking contract can now transfer up to the approved amount
+- Event emitted: `Approval(user, stakingContract, amount)`
+
+### Approval Amount
+
+You can approve any amount:
+- **Exact amount**: Approve only what you plan to stake
+- **Larger amount**: Approve more to avoid repeated approvals
+- **Unlimited**: Approve maximum uint256 (not recommended)
+
+:::tip
+Approve slightly more than you plan to stake initially. This avoids needing to re-approve for future stakes.
+:::
+
+## Step 2: Stake Tokens
+
+Once approved, you can stake your TCP tokens.
+
+### How to Stake
+
+**Via Web Interface**
+1. Enter the amount to stake
+2. Review the transaction details
+3. Click "Stake"
+4. Confirm in your wallet
 5. Wait for confirmation
 
-**On-Chain**
-- Tokens transferred to staking contract
-- Stake recorded
-- Rewards begin accruing
-- Event emitted
-
-**Example**
-```
-Stake 1,000 TCP
-- Tokens transferred
-- Stake recorded
-- Rewards begin accruing
+**Via Smart Contract**
+```solidity
+// Stake 1000 TCP tokens
+staking.stake(1000e18);
 ```
 
-### Step 3: Earn Rewards
+### What Happens On-Chain
 
-Your rewards accrue automatically over time.
+When you stake tokens:
 
-**How Rewards Work**
-- Calculated continuously
-- Based on your stake
-- Based on reward rate
-- Updated on each block
-
-**Reward Calculation**
 ```
-Your Reward = (Your Stake / Total Stake) × Total Rewards
+1. Validation
+   ├─ Check: User has approved sufficient amount
+   ├─ Check: User has sufficient balance
+   └─ Check: Reward pool has capacity
+
+2. Token Transfer
+   └─ Transfer tokens from user to staking contract
+
+3. Position Creation
+   ├─ Record stake amount
+   ├─ Record stake timestamp
+   └─ Initialize reward tracking
+
+4. Event Emission
+   └─ Emit Staked(user, amount)
 ```
 
-**Example**
+### Staking Example
+
 ```
-Your Stake: 1,000 TCP
-Total Stake: 100,000 TCP
-Reward Rate: 10% APY
-Annual Reward: 100 TCP
+User: 0x1234...
+Amount: 1,000 TCP
+Timestamp: Block 50,000,000
+
+On-Chain State:
+├─ User Balance: 1,000 TCP → 0 TCP
+├─ Contract Balance: 0 TCP → 1,000 TCP
+├─ User Stake: 0 TCP → 1,000 TCP
+└─ Total Staked: 0 TCP → 1,000 TCP
 ```
 
-### Step 4: Claim Rewards
+## Step 3: Rewards Accrue Continuously
 
-You can claim your earned rewards anytime.
+Once staked, your rewards begin accruing immediately.
 
-**How to Claim**
-1. Open staking interface
-2. View earned rewards
-3. Click \"Claim\"
-4. Confirm transaction
+### Reward Calculation
+
+Rewards are calculated based on your share of the total stake:
+
+```
+Your Reward = (Your Stake / Total Stake) × Reward Rate
+```
+
+### Continuous Accrual
+
+Rewards accrue continuously, updated on each block:
+
+```
+Block 50,000,000: Reward = 0.000001 TCP
+Block 50,000,001: Reward = 0.000002 TCP
+Block 50,000,002: Reward = 0.000003 TCP
+...
+```
+
+### Reward Tracking
+
+The staking contract maintains:
+- **Accrued rewards**: Calculated continuously
+- **Reserved rewards**: Held for claim operations
+- **Available rewards**: Remaining in the reward pool
+
+### Example Reward Accrual
+
+```
+Scenario: 1,000 TCP staked at 10% APY
+
+Day 1:   Accrued ≈ 0.027 TCP
+Day 7:   Accrued ≈ 0.19 TCP
+Day 30:  Accrued ≈ 0.82 TCP
+Day 365: Accrued ≈ 100 TCP
+```
+
+:::note
+Actual reward rates depend on the current reward pool funding and total staked amount. Check the staking interface for current rates.
+:::
+
+## Step 4: Claim Rewards
+
+You can claim your earned rewards at any time.
+
+### How to Claim
+
+**Via Web Interface**
+1. View your earned rewards
+2. Click "Claim Rewards"
+3. Confirm in your wallet
+4. Wait for confirmation
+
+**Via Smart Contract**
+```solidity
+// Claim all earned rewards
+uint256 rewardAmount = staking.claimRewards();
+```
+
+### What Happens On-Chain
+
+When you claim rewards:
+
+```
+1. Calculation
+   └─ Calculate total accrued rewards
+
+2. Validation
+   ├─ Check: Rewards are available
+   ├─ Check: Reward pool has sufficient balance
+   └─ Check: No double-payment risk
+
+3. Reward Transfer
+   └─ Transfer rewards to user wallet
+
+4. State Update
+   ├─ Reset user's accrued rewards to zero
+   ├─ Update reward pool balance
+   └─ Record claim in contract state
+
+5. Event Emission
+   └─ Emit RewardsClaimed(user, amount)
+```
+
+### Claiming Example
+
+```
+User: 0x1234...
+Accrued Rewards: 25 TCP
+Claim Timestamp: Block 50,100,000
+
+On-Chain State:
+├─ User Reward Balance: 25 TCP → 0 TCP
+├─ User Wallet: 0 TCP → 25 TCP
+├─ Reward Pool: 70,000,000 TCP → 69,999,975 TCP
+└─ Reserved Rewards: 25 TCP → 0 TCP
+```
+
+### Claim Frequency
+
+You can claim:
+- **Anytime**: No restrictions on claim frequency
+- **Partially**: Claim some rewards, leave others accruing
+- **Fully**: Claim all accrued rewards at once
+
+:::tip
+Claim rewards periodically to compound your earnings. Claimed rewards can be restaked for additional returns.
+:::
+
+## Step 5: Unstake Tokens
+
+You can unstake your tokens at any time without lock-up periods.
+
+### How to Unstake
+
+**Via Web Interface**
+1. Enter the amount to unstake
+2. Review the transaction details
+3. Click "Unstake"
+4. Confirm in your wallet
 5. Wait for confirmation
 
-**On-Chain**
-- Rewards calculated
-- Rewards transferred
-- Claim recorded
-- Event emitted
-
-**Example**
-```
-Claim 25 TCP rewards
-- Rewards transferred to wallet
-- Claim recorded on-chain
-- Rewards reset to zero
+**Via Smart Contract**
+```solidity
+// Unstake 500 TCP tokens
+staking.unstake(500e18);
 ```
 
-### Step 5: Unstake Tokens
+### What Happens On-Chain
 
-You can unstake your tokens anytime without lock-up.
+When you unstake tokens:
 
-**How to Unstake**
-1. Open staking interface
-2. Enter amount to unstake
-3. Review details
-4. Confirm transaction
-5. Wait for confirmation
-
-**On-Chain**
-- Tokens transferred back
-- Stake reduced
-- Unstake recorded
-- Event emitted
-
-**Example**
 ```
-Unstake 500 TCP
-- 500 TCP transferred back
-- Stake reduced to 500 TCP
-- Unstake recorded on-chain
+1. Validation
+   ├─ Check: User has staked tokens
+   ├─ Check: Amount does not exceed stake
+   └─ Check: Contract has sufficient balance
+
+2. Token Transfer
+   └─ Transfer tokens from contract to user
+
+3. Position Update
+   ├─ Reduce stake amount
+   ├─ Maintain reward tracking
+   └─ Update total staked
+
+4. Event Emission
+   └─ Emit Unstaked(user, amount)
+```
+
+### Unstaking Example
+
+```
+User: 0x1234...
+Unstake Amount: 500 TCP
+Timestamp: Block 50,200,000
+
+On-Chain State:
+├─ User Stake: 1,000 TCP → 500 TCP
+├─ User Wallet: 0 TCP → 500 TCP
+├─ Contract Balance: 1,000 TCP → 500 TCP
+└─ Total Staked: 1,000 TCP → 500 TCP
+```
+
+### Partial vs Full Unstaking
+
+**Partial Unstaking**
+- Unstake some tokens, keep others staking
+- Remaining stake continues earning rewards
+- Useful for accessing liquidity while maintaining position
+
+**Full Unstaking**
+- Unstake all tokens
+- Claim remaining rewards
+- Exit the staking position
+
+:::warning
+Unstaking does not automatically claim rewards. Claim your rewards before unstaking if you want to receive them.
+:::
+
+## Complete Staking Workflow
+
+### Scenario: 1-Year Staking Position
+
+```
+Day 0: Approval
+├─ Approve staking contract for 1,000 TCP
+└─ Status: Ready to stake
+
+Day 0: Staking
+├─ Stake 1,000 TCP
+├─ Rewards begin accruing
+└─ Status: Position active
+
+Day 90: Claim
+├─ Accrue ~25 TCP in rewards
+├─ Claim 25 TCP
+├─ Rewards reset to zero
+└─ Status: Position active, rewards claimed
+
+Day 180: Partial Unstaking
+├─ Unstake 500 TCP
+├─ Remaining stake: 500 TCP
+├─ Remaining rewards continue accruing
+└─ Status: Position reduced
+
+Day 365: Final Claim & Unstaking
+├─ Accrue ~50 TCP in additional rewards
+├─ Claim 50 TCP
+├─ Unstake remaining 500 TCP
+└─ Status: Position closed
+
+Final Result:
+├─ Staked: 1,000 TCP
+├─ Earned: 75 TCP
+├─ Returned: 1,000 TCP
+└─ Total Received: 1,075 TCP
 ```
 
 ## Staking Parameters
 
-### Key Parameters
+### Current Configuration
 
-| Parameter | Value |
-|-----------|-------|
-| **Reward Rate** | e.g., 10% APY |
-| **Minimum Stake** | e.g., 1 TCP (if applicable) |
-| **Maximum Stake** | e.g., 1,000,000 TCP (if applicable) |
-| **Reward Period** | Continuous |
-| **Lock-Up Period** | None |
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| **Reward Pool Maximum** | 70,000,000 TCP | Hard limit, enforced by contract |
+| **Minimum Stake** | 1 TCP | Effectively no minimum |
+| **Maximum Stake** | Unlimited | Per user, no cap |
+| **Lock-up Period** | None | Unstake anytime |
+| **Claim Frequency** | Unlimited | Claim anytime |
+| **Reward Rate** | Variable | Based on pool funding |
 
-### Parameter Flexibility
+### Pool Overflow Protection
 
-Parameters can be adjusted:
-- Reward rate can be modified
-- Minimum stake can be changed
-- Maximum stake can be adjusted
-- Changes announced in advance
+The staking contract includes automatic protection against reward pool overflow:
 
-## Reward Mechanics
-
-### Reward Accrual
-
-Rewards accrue continuously:
-- Calculated per block
-- Updated on each interaction
-- Claimable anytime
-- No lock-up period
-
-### Reward Distribution
-
-Rewards are distributed from:
-- **Reward Pool**, Allocated tokens
-- **Protocol Revenue**, Protocol earnings
-- **Treasury**, If needed
-- **Ecosystem Allocations**, If applicable
-
-### Reward Sustainability
-
-Rewards are designed to be sustainable:
-- Adequate funding
-- Long-term viability
-- Adjustable rate
-- Transparent tracking
-
-## Staking Examples
-
-### Example 1: Simple Staking
-
-```
-Scenario: Stake 1,000 TCP for 1 year
-
-Day 0:
-- Approve staking contract
-- Stake 1,000 TCP
-- Rewards begin accruing
-
-Day 365:
-- Earned rewards: ~100 TCP (at 10% APY)
-- Claim rewards
-- 100 TCP transferred to wallet
-
-Completion:
-- Staked: 1,000 TCP
-- Earned: 100 TCP
-- Total: 1,100 TCP
+```solidity
+require(
+    rewardFunded + newAmount <= MAX_REWARD_POOL,
+    "Exceeds reward pool maximum"
+);
 ```
 
-### Example 2: Partial Unstaking
+This ensures the reward pool never exceeds 70,000,000 TCP.
 
-```
-Scenario: Stake 1,000 TCP, then unstake 500
+## Key Takeaways
 
-Day 0:
-- Stake 1,000 TCP
-- Rewards begin accruing
-
-Day 180:
-- Earned rewards: ~50 TCP (at 10% APY)
-- Unstake 500 TCP
-- 500 TCP transferred back
-- Remaining stake: 500 TCP
-
-Day 365:
-- Earned additional rewards: ~25 TCP
-- Claim all rewards
-- 75 TCP transferred to wallet
-
-Completion:
-- Staked: 500 TCP
-- Earned: 75 TCP
-- Unstaked: 500 TCP
-```
-
-### Example 3: Continuous Staking
-
-```
-Scenario: Stake, claim, and restake
-
-Day 0:
-- Stake 1,000 TCP
-
-Day 180:
-- Earned: 50 TCP
-- Claim rewards
-- Stake additional 50 TCP
-- New stake: 1,050 TCP
-
-Day 365:
-- Earned: ~52.50 TCP
-- Claim rewards
-- Total earned: 102.50 TCP
-
-Completion:
-- Staked: 1,050 TCP
-- Earned: 102.50 TCP
-```
-
-## Staking Benefits
-
-### For Users
-
-✅ **Passive income**, Earn rewards on holdings  
-✅ **Flexibility**, Stake and unstake anytime  
-✅ **Transparency**, Rewards calculated on-chain  
-✅ **Simplicity**, Easy to understand and use  
-✅ **No lock-up**, Access tokens anytime  
-
-### For Protocol
-
-✅ **Incentivizes holding**, Rewards encourage long-term holding  
-✅ **Builds community**, Rewards build community engagement  
-✅ **Supports security**, Staking supports protocol security  
-✅ **Aligns incentives**, Rewards align holder interests  
-
-## Staking Risks
-
-### Considerations
-
-⚠️ **Smart contract risk**, Staking contract may have vulnerabilities  
-⚠️ **Market risk**, Token value may decrease  
-⚠️ **Reward risk**, Reward rate may change  
-⚠️ **Liquidity risk**, Tokens locked while staking  
-⚠️ **Operational risk**, Protocol operations may be disrupted  
-
-### Risk Mitigation
-
-Risks are mitigated through:
-- Audited contracts
-- Transparent operations
-- Flexible unstaking
-- Reward sustainability
-- Community oversight
+1. **Two-step process**: Approve, then stake
+2. **Continuous rewards**: Accrue automatically on each block
+3. **Flexible claiming**: Claim anytime without restrictions
+4. **No lock-up**: Unstake immediately when needed
+5. **On-chain transparency**: All operations recorded and verifiable
 
 ## Best Practices
 
 ### For Stakers
 
-✅ **Understand the mechanism**, Know how staking works  
-✅ **Verify the contract**, Check contract on PolygonScan  
-✅ **Start small**, Test with small amount first  
-✅ **Monitor rewards**, Track your rewards  
-✅ **Claim regularly**, Claim rewards periodically  
+✅ **Understand the mechanism** before staking  
+✅ **Start with small amounts** to test the process  
+✅ **Monitor your rewards** regularly  
+✅ **Claim periodically** to compound earnings  
+✅ **Keep records** of all transactions  
 
-### For Community
+### For Security
 
-✅ **Monitor staking**, Watch staking metrics  
-✅ **Assess rewards**, Evaluate reward sustainability  
-✅ **Provide feedback**, Share suggestions  
-✅ **Report issues**, Report any problems  
-✅ **Stay informed**, Follow staking updates  
+✅ **Verify contract address** before approving  
+✅ **Use hardware wallets** for large stakes  
+✅ **Check gas prices** before transactions  
+✅ **Confirm transactions** carefully  
+✅ **Never share private keys** or seed phrases  
 
-## Key Takeaways
+## Common Questions
 
-1. **Simple mechanism**, Easy to understand and use
-2. **Flexible participation**, Stake and unstake anytime
-3. **Transparent rewards**, Rewards calculated on-chain
-4. **No lock-up**, Access tokens anytime
-5. **Community trust**, Transparent, auditable staking
+**Q: Do I need to approve every time I stake?**  
+A: No. Once approved, you can stake multiple times up to the approved amount.
+
+**Q: Can I claim rewards without unstaking?**  
+A: Yes. Claiming rewards does not affect your stake.
+
+**Q: Are there penalties for unstaking?**  
+A: No. You can unstake anytime without penalties.
+
+**Q: How often should I claim rewards?**  
+A: Whenever you want. Claiming is optional and can be done anytime.
+
+**Q: What happens if the reward pool runs out?**  
+A: The contract prevents staking if rewards are unavailable. The pool is managed to prevent this.
 
 ## See also
 
-- [TCPStaking V2 to V3 Migration](/docs/staking-rewards/v2-to-v3-migration), Technical migration details
-- [Reward Funding](/docs/staking-rewards/reward-funding), How rewards are sustained
-- [Staking Contract](/docs/protocol-architecture/staking), Technical contract details
+- [Reward Distribution Logic](/docs/staking-rewards/reward-distribution-logic)
+- [Reward Funding](/docs/staking-rewards/reward-funding)
+- [User Flows](/docs/staking-rewards/user-flows)
+- [TCPStakingV2 Contract](/docs/protocol-architecture/staking)
+- [Technical Validation](/docs/staking-rewards/technical-validation)

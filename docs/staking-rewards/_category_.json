@@ -1,8 +1,13 @@
 {
-  "label": "Staking & Rewards",
+  "label": "Staking",
   "position": 8,
+  "collapsible": false,
+  "collapsed": false,
+  "customProps": {
+    "icon": "rocket"
+  },
   "link": {
     "type": "generated-index",
-    "description": "Detailed information about TCP staking and reward mechanisms"
+    "description": "Complete guide to TCP staking, reward mechanics, and TCPStakingV2 contract"
   }
 }

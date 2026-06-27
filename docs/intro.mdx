@@ -1,0 +1,89 @@
+---
+title: Introduction
+sidebar_position: 0
+description: "A structured blockchain protocol on Polygon with modular architecture, timelock-protected treasury, advanced liquidity management, on-chain staking, and audit-friendly design"
+slug: "/intro"
+sidebar_custom_props:
+  icon: house
+---
+
+import {Card, CardGrid} from '@site/src/components/Card';
+
+<div className="docs-eyebrow">Getting started</div>
+
+# Protocol (TCP)
+
+<p className="docs-lede">A structured blockchain protocol on Polygon with modular architecture, timelock-protected treasury, advanced liquidity management, on-chain staking, and audit-friendly design</p>
+
+Protocol (TCP) is a comprehensive blockchain protocol built on Polygon that combines sophisticated governance, transparent treasury management, and a fully on-chain staking system. The protocol enables TCP token holders to stake their tokens and earn rewards while maintaining complete transparency and security.
+
+## Start here
+
+<CardGrid cols={1}>
+  <Card title="Welcome" href="/docs/introduction/welcome" icon={<i className="ph ph-rocket" />}>
+    Get oriented with Protocol (TCP) and understand its core mission.
+  </Card>
+</CardGrid>
+
+## Explore
+
+<CardGrid cols={2}>
+  <Card title="What is TCP" href="/docs/project-overview/what-is-tcp" icon={<i className="ph ph-compass" />}>
+    Learn the fundamentals of the Protocol (TCP) blockchain.
+  </Card>
+  <Card title="Architecture" href="/docs/protocol-architecture/overview" icon={<i className="ph ph-gear" />}>
+    Understand the modular design and core components.
+  </Card>
+  <Card title="Staking" href="/docs/category/staking-rewards" icon={<i className="ph ph-rocket" />}>
+    Discover how to stake TCP tokens and earn rewards.
+  </Card>
+  <Card title="Security Model" href="/docs/security-model/overview" icon={<i className="ph ph-shield-check" />}>
+    Explore access controls, timelocks, and protection mechanisms.
+  </Card>
+  <Card title="FAQ" href="/docs/category/faq" icon={<i className="ph ph-question" />}>
+    Find answers to common questions about Protocol (TCP).
+  </Card>
+  <Card title="Resources" href="/docs/category/resources" icon={<i className="ph ph-link-simple" />}>
+    Access official links, community channels, and support.
+  </Card>
+</CardGrid>
+
+## Key Features
+
+### On-Chain Staking
+
+TCP Protocol features a fully on-chain staking system powered by TCPStakingV2. Token holders can stake their TCP tokens to earn rewards, with no lock-up periods and flexible claiming.
+
+- **Flexible participation**: Stake and unstake anytime
+- **Continuous rewards**: Automatic reward accrual per block
+- **Transparent accounting**: All operations on-chain and verifiable
+- **Secure design**: Multiple layers of protection against overflow and double-payment
+
+### Modular Architecture
+
+The protocol is built with a modular design that separates concerns and enables independent upgrades.
+
+- **TCP Token**: Core ERC-20 token
+- **Staking Contract**: Reward distribution and management
+- **Treasury**: Timelock-protected asset management
+- **Liquidity Manager**: Advanced liquidity handling
+- **Router**: Protocol integration hub
+
+### Governance
+
+Protocol governance is managed through a multisig structure with timelock protection, ensuring security and transparency.
+
+- **Multisig control**: Multiple signers required for critical operations
+- **Timelock protection**: Delays on sensitive operations
+- **Transparent operations**: All governance on-chain
+- **Community oversight**: Full visibility into protocol changes
+
+### Security
+
+The protocol implements multiple layers of security to protect user funds and maintain system integrity.
+
+- **Access controls**: Role-based permission system
+- **Timelocks**: Delays on critical operations
+- **Overflow protection**: Prevents reward pool overflow
+- **Double-payment prevention**: Ensures accurate reward distribution
+- **Balance verification**: Continuous accounting validation

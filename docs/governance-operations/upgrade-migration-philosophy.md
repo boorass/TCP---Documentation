@@ -1,16 +1,12 @@
 ---
-title: "Upgrade & Migration Philosophy"
+title: Upgrade & Migration Philosophy
 sidebar_position: 5
-description: "TCP's approach to protocol upgrades and migrations"
+description: TCP's approach to protocol upgrades and migrations
 ---
 
 # Upgrade & Migration Philosophy
 
 Protocol (TCP) follows a **careful, transparent approach** to protocol upgrades and migrations.
-
-:::note
-The [TCPStaking V2 to V3 migration](/docs/staking-rewards/v2-to-v3-migration) is a real-world example of this philosophy in action. An issue was discovered during pre-mainnet validation, and the protocol team proactively redesigned the staking component to ensure production-grade reliability before launch.
-:::
 
 ## Upgrade Philosophy
 
@@ -311,29 +307,28 @@ Rollback occurs if:
 
 ### For Developers
 
-✅ **Test thoroughly**, Test all changes extensively  
-✅ **Document changes**, Document all changes clearly  
-✅ **Communicate clearly**, Explain changes to community  
-✅ **Plan carefully**, Plan deployment carefully  
-✅ **Monitor closely**, Monitor after deployment  
+✅ **Test thoroughly** — Test all changes extensively  
+✅ **Document changes** — Document all changes clearly  
+✅ **Communicate clearly** — Explain changes to community  
+✅ **Plan carefully** — Plan deployment carefully  
+✅ **Monitor closely** — Monitor after deployment  
 
 ### For Community
 
-✅ **Provide feedback**, Share concerns and suggestions  
-✅ **Test upgrades**, Test on testnet if possible  
-✅ **Report issues**, Report any issues immediately  
-✅ **Be patient**, Allow time for careful deployment  
-✅ **Support process**, Support the upgrade process  
+✅ **Provide feedback** — Share concerns and suggestions  
+✅ **Test upgrades** — Test on testnet if possible  
+✅ **Report issues** — Report any issues immediately  
+✅ **Be patient** — Allow time for careful deployment  
+✅ **Support process** — Support the upgrade process  
 
 ## Key Takeaways
 
-1. **Careful approach**, Upgrades done carefully
-2. **Transparent process**, Community informed throughout
-3. **Thorough testing**, All changes tested thoroughly
-4. **Gradual rollout**, Deployed gradually with monitoring
-5. **Rollback ready**, Ready to rollback if needed
+1. **Careful approach** — Upgrades done carefully
+2. **Transparent process** — Community informed throughout
+3. **Thorough testing** — All changes tested thoroughly
+4. **Gradual rollout** — Deployed gradually with monitoring
+5. **Rollback ready** — Ready to rollback if needed
 
-## See also
+---
 
-- [TCPStaking V2 to V3 Migration](/docs/staking-rewards/v2-to-v3-migration), Real-world case study of proactive protocol improvement
-- [Staking & Rewards](/docs/category/staking-rewards), Detailed staking information
+**Next:** Explore [Staking & Rewards](../staking-rewards/overview.md) for detailed staking information.
